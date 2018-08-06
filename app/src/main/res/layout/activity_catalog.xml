@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.clothesstoreapp.CatalogActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ListView
+        android:id="@+id/catalog_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_48dp"
+        />
 
 </android.support.constraint.ConstraintLayout>

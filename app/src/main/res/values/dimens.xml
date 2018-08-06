@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Floating Action Button in activity_catalog -->
+    <dimen name="fab_width">56dp</dimen>
+    <dimen name="fab_height">56dp</dimen>
+    <dimen name="fab_margin">32dp</dimen>
+
+
+</resources>
