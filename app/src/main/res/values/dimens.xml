@@ -5,5 +5,7 @@
     <dimen name="fab_height">56dp</dimen>
     <dimen name="fab_margin">32dp</dimen>
 
+    <dimen name="activity_editor_layout_padding">8dp</dimen>
+    <dimen name="activity_editor_single_view_height">56dp</dimen>
 
 </resources>

@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Edit Activity -->
+    <!-- Labels Text View style -->
+    <style name="InputTitleTextViewStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- Edit Text View style -->
+    <style name="EditTextStyle">
+        <item name="android:textColorHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- Currency Text Style -->
+    <style name="CurrencyTextViewStyle">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Small</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginRight">@dimen/activity_editor_layout_padding</item>
+
+    </style>
+
 </resources>
