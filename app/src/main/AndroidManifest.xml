@@ -18,6 +18,10 @@
         </activity>
         <activity android:name=".EditorActivity"
             android:parentActivityName=".CatalogActivity"/>
+        <provider
+            android:name=".data.ClothesProvider"
+            android:authorities="com.example.android.clothesstoreapp"
+            android:exported="false"/>
     </application>
 
 </manifest>
