@@ -23,13 +23,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/InputTitleTextViewStyle"
-            android:text="Overview"/>
+            android:text="@string/product_overview_label"/>
 
         <EditText
+            android:id="@+id/name_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="Name"
+            android:hint="@string/product_overview_edit_text_hint"
             android:inputType="textCapSentences"
             style="@style/EditTextStyle"/>
     </LinearLayout>
@@ -51,7 +52,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/InputTitleTextViewStyle"
-            android:text="Price"/>
+            android:text="@string/product_price_label"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -59,15 +60,16 @@
             android:layout_weight="2"
             android:layout_gravity="">
             <EditText
+                android:id="@+id/price_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="f.e. 45.99"
+                android:hint="@string/product_price_edit_text_hint"
                 android:inputType="numberDecimal"
                 style="@style/EditTextStyle"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="pln"
+                android:text="@string/product_price_currency"
                 style="@style/CurrencyTextViewStyle"/>
         </RelativeLayout>
     </LinearLayout>
@@ -89,13 +91,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/InputTitleTextViewStyle"
-            android:text="Quantity"/>
+            android:text="@string/product_quantity_label"/>
 
         <EditText
+            android:id="@+id/quantity_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="f.e. 8"
+            android:hint="@string/product_quantity_edit_text_hint"
             android:inputType="number"
             style="@style/EditTextStyle"/>
     </LinearLayout>
@@ -117,7 +120,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/InputTitleTextViewStyle"
-            android:text="Supplier"/>
+            android:text="@string/product_supplier_label"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -127,18 +130,21 @@
 
             <!-- Product Supplier Name input Field -->
             <EditText
+                android:id="@+id/supplier_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_editor_single_view_height"
-                android:hint="Name"
+                android:hint="@string/product_supplier_edit_text_hint_name"
                 android:inputType="textCapSentences"
                 style="@style/EditTextStyle"/>
 
             <!-- Product Supplier Phone input Field -->
             <EditText
+                android:id="@+id/supplier_phone_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_editor_single_view_height"
-                android:hint="Phone"
+                android:hint="@string/product_supplier_edit_text_hint_phone"
                 android:inputType="phone"
+                android:maxLength="9"
                 style="@style/EditTextStyle"/>
         </LinearLayout>
     </LinearLayout>
@@ -160,12 +166,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/InputTitleTextViewStyle"
-            android:text="Category"/>
+            android:text="@string/product_category_label"/>
 
         <Spinner
+            android:id="@+id/category_spinner"
             android:layout_width="0dp"
             android:layout_height="@dimen/activity_editor_single_view_height"
             android:layout_weight="2"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

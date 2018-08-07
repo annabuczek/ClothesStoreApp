@@ -14,6 +14,7 @@ public class CatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
+        /** Setup FAB button to start new activity {@link EditorActivity} */
         FloatingActionButton fabButton = findViewById(R.id.fab_add);
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,3 +1,55 @@
 <resources>
     <string name="app_name">Clothes Store App</string>
+
+    <!-- activity_editor Strings -->
+
+    <!-- Product Overview Label [CHAR LIMIT=20] -->
+    <string name="product_overview_label">Overview</string>
+
+    <!-- Product Name hint for EditText [CHAR LIMIT=20] -->
+    <string name="product_overview_edit_text_hint">Name</string>
+
+    <!-- Product Price Label [CHAR LIMIT=20] -->
+    <string name="product_price_label">Price</string>
+
+    <!-- Product Price hint for EditText [CHAR LIMIT=20] -->
+    <string name="product_price_edit_text_hint">f.e. 45.99</string>
+
+    <!-- Product Price Currency [CHAR LIMIT=3] -->
+    <string name="product_price_currency">pln</string>
+
+    <!-- Product Quantity Label [CHAR LIMIT=20] -->
+    <string name="product_quantity_label">Quantity</string>
+
+    <!-- Product Quantity hint for EditText [CHAR LIMIT=20] -->
+    <string name="product_quantity_edit_text_hint">f.e. 8</string>
+
+    <!-- Product Supplier Label [CHAR LIMIT=20] -->
+    <string name="product_supplier_label">Supplier</string>
+
+    <!-- Product Supplier name hint for EditText [CHAR LIMIT=20] -->
+    <string name="product_supplier_edit_text_hint_name">Name</string>
+
+    <!-- Product Supplier phone hint for EditText [CHAR LIMIT=20] -->
+    <string name="product_supplier_edit_text_hint_phone">Phone</string>
+
+    <!-- Product Category Label [CHAR LIMIT=20] -->
+    <string name="product_category_label">Category</string>
+    
+    <!-- Category Array Strings -->
+    <string name="category_tshirt">T-shirt</string>
+    <string name="category_shirt">Shirt</string>
+    <string name="category_trousers">Trousers</string>
+    <string name="category_dress">Dress</string>
+    <string name="category_skirt">Skirt</string>
+
+    <!-- Menu strings -->
+    <!-- Menu Editor Activity -->
+    <string name="menu_editor_save">Save</string>
+
+    <!-- Menu Category Activity -->
+    <string name="menu_category_insert">Insert example Product</string>
+    <string name="menu_category_delete_all">Delete all the products</string>
+    
+    
 </resources>
