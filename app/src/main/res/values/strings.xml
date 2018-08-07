@@ -37,6 +37,7 @@
     <string name="product_category_label">Category</string>
     
     <!-- Category Array Strings -->
+    <string name="category_other">Other</string>
     <string name="category_tshirt">T-shirt</string>
     <string name="category_shirt">Shirt</string>
     <string name="category_trousers">Trousers</string>

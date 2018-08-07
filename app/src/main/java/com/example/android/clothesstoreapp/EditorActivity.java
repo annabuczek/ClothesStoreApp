@@ -69,7 +69,7 @@ public class EditorActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /** Helper method for setting up Spinner */
+    /** Setup the dropdown Spinner which allow the user to select category of the Product */
     private void setupSpinner() {
 
         mSpinner = findViewById(R.id.category_spinner);
