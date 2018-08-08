@@ -1,14 +1,17 @@
 package com.example.android.clothesstoreapp;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -58,10 +61,32 @@ public class EditorActivity extends AppCompatActivity {
      */
     private Uri mCurrentUri;
 
+    /**
+     * Boolean that keeps information wheather the Product was edited (true) or not (false)
+     */
+    private boolean hasProductChanged = false;
+
+    /**
+     * OnTouchListener which listen for any user touch on Views that it is attached to.
+     */
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            hasProductChanged = true;
+            return false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        if (mCurrentUri == null) {
+            setTitle(R.string.editor_activity_add);
+        }
+
+        setupSpinner();
 
         //Find Views for further use
         mNameEditText = findViewById(R.id.name_edit_text);
@@ -69,6 +94,14 @@ public class EditorActivity extends AppCompatActivity {
         mQuantityEditText = findViewById(R.id.quantity_edit_text);
         mSupplierNameEditText = findViewById(R.id.supplier_name_edit_text);
         mSupplierPhoneEditText = findViewById(R.id.supplier_phone_edit_text);
+
+        // Set OnTouchListener to be notified weather the user changed any data
+        mNameEditText.setOnTouchListener(mTouchListener);
+        mPriceEditText.setOnTouchListener(mTouchListener);
+        mQuantityEditText.setOnTouchListener(mTouchListener);
+        mSupplierNameEditText.setOnTouchListener(mTouchListener);
+        mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+        mSpinner.setOnTouchListener(mTouchListener);
 
         // Set InputFilter.LengthFilter on mQuantityEditText to limit number of characters user may input
         mQuantityEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(QUANTITY_MAX_LENGTH)});
@@ -80,12 +113,6 @@ public class EditorActivity extends AppCompatActivity {
         // in order to limit user input to mach pattern
         // which in this case is "xxx.xx"
         mPriceEditText.setFilters(new InputFilter[]{new TwoDigitsDecimalInputFilter(3, 2)});
-
-        setupSpinner();
-
-        if (mCurrentUri == null) {
-            setTitle(R.string.editor_activity_add);
-        }
 
     }
 
@@ -107,16 +134,45 @@ public class EditorActivity extends AppCompatActivity {
                 }
                 return true;
             case android.R.id.home:
-                // Navigate back to the previous activity
-                NavUtils.navigateUpFromSameTask(this);
+                if (!hasProductChanged) {
+                    // If user hasn't put any data, then navigate back to the previous activity
+                    NavUtils.navigateUpFromSameTask(this);
+                } else {
+                    // otherwise show dialog
+                    // if user clicked 'dismiss' button - navigate back from the same task
+                    showUnsavedChangesDialog(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                        }
+                    });
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Setup the dropdown Spinner which allow the user to select category of the Product
-     */
+    @Override
+    public void onBackPressed() {
+        // If any data changes, procees normal back press behaviour
+        if (!hasProductChanged) {
+            super.onBackPressed();
+        } else {
+            // Show dialog
+            // If user clicked "discard" button - finish activity
+            showUnsavedChangesDialog(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        }
+    }
+
+        /**
+         * Setup the dropdown Spinner which allow the user to select category of the Product
+         */
+
     private void setupSpinner() {
 
         mSpinner = findViewById(R.id.category_spinner);
@@ -238,5 +294,27 @@ public class EditorActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    /**
+     * Method that builds dialog to show if the user attempts to leave the activity without saving data
+     */
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_unsaved_message);
+        builder.setNegativeButton(R.string.dialog_unsaved_negative_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.setPositiveButton(R.string.dialog_unsaved_positive_button, discardButtonClickListener);
+
+        // Create and show dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
