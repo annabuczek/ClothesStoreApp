@@ -16,12 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditorActivity"
-            android:parentActivityName=".CatalogActivity"/>
+        <activity
+            android:name=".EditorActivity"
+            android:parentActivityName=".CatalogActivity" />
+
         <provider
             android:name=".data.ClothesProvider"
             android:authorities="com.example.android.clothesstoreapp"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity android:name=".DetailActivity"
+            android:parentActivityName=".CatalogActivity"/>
     </application>
 
 </manifest>

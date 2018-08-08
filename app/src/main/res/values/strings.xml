@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Clothes Store App</string>
 
-    <!-- activity_editor Strings -->
-
     <!-- Product Overview Label [CHAR LIMIT=20] -->
     <string name="product_overview_label">Overview</string>
 
@@ -27,6 +25,9 @@
     <!-- Product Supplier Label [CHAR LIMIT=20] -->
     <string name="product_supplier_label">Supplier</string>
 
+    <!-- Product Supplier Label [CHAR LIMIT=20] -->
+    <string name="product_supplier_phone_label">Supplier Phone</string>
+
     <!-- Product Supplier name hint for EditText [CHAR LIMIT=20] -->
     <string name="product_supplier_edit_text_hint_name">Name</string>
 
@@ -35,7 +36,7 @@
 
     <!-- Product Category Label [CHAR LIMIT=20] -->
     <string name="product_category_label">Category</string>
-    
+
     <!-- Category Array Strings -->
     <string name="category_other">Other</string>
     <string name="category_tshirt">T-shirt</string>
@@ -47,6 +48,10 @@
     <!-- Menu strings -->
     <!-- Menu Editor Activity -->
     <string name="menu_editor_save">Save</string>
+
+    <!-- Menu Detail Activity -->
+    <string name="menu_detail_edit">edit</string>
+    <string name="menu_detail_delete">delete</string>
 
     <!-- Menu Category Activity -->
     <string name="menu_category_insert">Insert example Product</string>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.clothesstoreapp.DetailActivity"
+    android:padding="@dimen/activity_detail_layout_padding">
+
+    <!-- Product Name TextView -->
+    <TextView
+        android:id="@+id/detail_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_detail_layout_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="Name of the product a co jesli bedzie wiekszy to wtedt tez jest spoko"
+        style="@style/DetailProductNameView"/>
+
+    <!-- Product Category Text View -->
+    <TextView
+        android:id="@+id/detail_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="t-shirt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_name"
+        style="@style/DetailCategoryView"/>
+
+    <!-- Other Information Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_category"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_detail_layout_padding"
+        android:background="@color/colorBackgroundLight">
+
+        <!-- Price View -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_detail_view_bottom_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/product_price_label"
+                style="@style/DetailLabelsStyle"/>
+
+            <TextView
+                android:id="@+id/detail_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="0"
+                android:layout_toLeftOf="@id/detail_currency"
+                android:padding="@dimen/activity_detail_layout_padding"
+                style="@style/DetailInfoViewStyle" />
+
+            <TextView
+                android:id="@+id/detail_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_price_currency"
+                style="@style/DetailInfoViewStyle"
+                android:padding="@dimen/activity_detail_layout_padding"
+                android:layout_alignParentRight="true"
+                android:textAllCaps="true"/>
+        </RelativeLayout>
+
+        <!-- Quantity View -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_detail_view_bottom_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/product_quantity_label"
+                style="@style/DetailLabelsStyle"/>
+
+            <ImageButton
+                android:id="@+id/quantity_button_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/detail_quantity"
+                android:src="@drawable/ic_arrow_drop_up_24dp"
+                android:background="@color/colorAccent"
+                android:padding="@dimen/activity_detail_layout_padding"/>
+
+            <TextView
+                android:id="@+id/detail_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="0"
+                android:layout_toLeftOf="@id/quantity_button_down"
+                android:padding="@dimen/activity_detail_layout_padding"
+                style="@style/DetailInfoViewStyle"/>
+
+            <ImageButton
+                android:id="@+id/quantity_button_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_arrow_drop_down_24dp"
+                android:background="@color/colorAccent"
+                android:padding="@dimen/activity_detail_layout_padding"
+                android:layout_marginRight="@dimen/activity_detail_layout_padding"/>
+        </RelativeLayout>
+
+        <!-- Supplier View -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_detail_view_bottom_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/product_supplier_label"
+                style="@style/DetailLabelsStyle"/>
+
+            <TextView
+                android:id="@+id/detail_supplier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Name of the supplier"
+                style="@style/DetailInfoViewStyle"
+                android:padding="@dimen/activity_detail_layout_padding"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <!-- Supplier Phone View -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_detail_layout_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/product_supplier_phone_label"
+                style="@style/DetailLabelsStyle"/>
+
+            <TextView
+                android:id="@+id/detail_supplier_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="908768098"
+                style="@style/DetailInfoViewStyle"
+                android:padding="@dimen/activity_detail_layout_padding"
+                android:layout_toLeftOf="@id/detail_call_button"/>
+
+            <ImageButton
+                android:id="@+id/detail_call_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_call_black_24dp"
+                android:padding="@dimen/activity_detail_layout_padding"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

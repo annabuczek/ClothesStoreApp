@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -54,6 +55,15 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // And set adapter on the listView
         mAdapter = new ClothesCursorAdapter(this, null);
         catalogListView.setAdapter(mAdapter);
+
+        //Set OnClickListener on the list view item
+        catalogListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(CatalogActivity.this, DetailActivity.class);
+                startActivity(i);
+            }
+        });
 
         getLoaderManager().initLoader(CATEGORY_LOADER_ID, null, this);
     }
