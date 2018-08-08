@@ -51,6 +51,10 @@
     <!-- Menu Category Activity -->
     <string name="menu_category_insert">Insert example Product</string>
     <string name="menu_category_delete_all">Delete all the products</string>
-    
-    
+    <string name="list_item_quantity_text">items in stock</string>
+    <string name="list_item_category_text">category:</string>
+    <string name="list_item_price_text">pln</string>
+    <string name="list_item_button_text">sell</string>
+
+
 </resources>

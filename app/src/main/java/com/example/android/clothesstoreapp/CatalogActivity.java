@@ -19,6 +19,8 @@ import com.example.android.clothesstoreapp.data.ClothesDbHelper;
 public class CatalogActivity extends AppCompatActivity {
 
     double price = 23.67;
+    // ClothesDbHelper object used to connect to the database
+    private ClothesDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +61,10 @@ public class CatalogActivity extends AppCompatActivity {
     public void insertExampleProduct(double price) {
 
         // Create a instance of ClothesDbHelper class
-        ClothesDbHelper dbHelper = new ClothesDbHelper(this);
+        mDbHelper = new ClothesDbHelper(this);
 
         // get SQLitedatabase in writable mode to inser data
-        SQLiteDatabase dbObject = dbHelper.getWritableDatabase();
+        SQLiteDatabase dbObject = mDbHelper.getWritableDatabase();
 
         // set values to be inserted
         ContentValues values = new ContentValues();

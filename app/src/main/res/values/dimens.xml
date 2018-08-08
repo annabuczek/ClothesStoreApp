@@ -8,4 +8,7 @@
     <dimen name="activity_editor_layout_padding">8dp</dimen>
     <dimen name="activity_editor_single_view_height">56dp</dimen>
 
+    <dimen name="catalog_list_item_padding">16dp</dimen>
+    <dimen name="list_item_view_padding">8dp</dimen>
+
 </resources>
