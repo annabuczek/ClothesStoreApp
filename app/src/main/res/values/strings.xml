@@ -65,5 +65,15 @@
     <string name="list_item_price_text">pln</string>
     <string name="list_item_button_text">sell</string>
 
+    <!-- Editor Activity toasts for invalid data -->
+    <string name="toast_invalid_name">Product requires name</string>
+    <string name="toast_invalid_price">Price must be specified</string>
+    <string name="toast_invalid_price_number">Price must be more than 0</string>
+    <string name="toast_invalid_supplier">Supplier Name must be specified</string>
+    <string name="toast_invalid_phone">Supplier Phone must be specified</string>
+    <string name="toast_invalid_phone_digits">Supplier Phone must have 9 digits</string>
+    <string name="toast_new_insertion_failed">Failed to add new Product</string>
+    <string name="toast_new_insertion_successful">New Product added</string>
+
 
 </resources>
