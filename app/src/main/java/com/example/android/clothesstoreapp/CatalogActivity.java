@@ -4,19 +4,18 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
-
-import com.example.android.clothesstoreapp.data.ClothesContract;
 import com.example.android.clothesstoreapp.data.ClothesDbHelper;
 
 public class CatalogActivity extends AppCompatActivity {
@@ -43,7 +42,7 @@ public class CatalogActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(ClothesEntry.CLOTHES_CONTENT_URI,
                 null, null, null, null);
 
-     ClothesCursorAdapter adapter = new ClothesCursorAdapter(this, cursor);
+        ClothesCursorAdapter adapter = new ClothesCursorAdapter(this, cursor);
 
         ListView catalogListView = findViewById(R.id.catalog_list);
 
@@ -59,7 +58,7 @@ public class CatalogActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
+        switch (id) {
             case R.id.menu_catalog_insert:
                 insertExampleProduct(price);
                 price += 5;
@@ -72,12 +71,6 @@ public class CatalogActivity extends AppCompatActivity {
 
     public void insertExampleProduct(double price) {
 
-        // Create a instance of ClothesDbHelper class
-        mDbHelper = new ClothesDbHelper(this);
-
-        // get SQLitedatabase in writable mode to inser data
-        SQLiteDatabase dbObject = mDbHelper.getWritableDatabase();
-
         // set values to be inserted
         ContentValues values = new ContentValues();
         values.put(ClothesEntry.COLUMN_NAME, "pierwsza dodana koszula");
@@ -86,9 +79,10 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(ClothesEntry.COLUMN_SUPPLIER_PHONE, "678342765");
         values.put(ClothesEntry.COLUMN_CATEGORY, ClothesEntry.CATEGORY_TSHIRT);
 
-        // insert data, return id of the inserted row
-        long idOfRow = dbObject.insert(ClothesEntry.TABLE_NAME, null, values);
+        // Insert Data using ContentProvider, return ContentUri of newly inserted product
+        Uri newProductUri = getContentResolver().insert(ClothesEntry.CLOTHES_CONTENT_URI, values);
 
-        Log.v("CatalogActivity", "Num of Rows inserted " + idOfRow);
+        Toast.makeText(this, "New product insertion successful for Uri " + newProductUri, Toast.LENGTH_SHORT).show();
+        Log.v("CatalogActivity", "Uri for the inserted Product " + newProductUri);
     }
 }

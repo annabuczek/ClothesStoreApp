@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
@@ -17,6 +19,9 @@ import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
  */
 
 public class ClothesProvider extends ContentProvider {
+
+    /** Tag for Logs */
+    private String LOG_TAG = ClothesProvider.class.getSimpleName();
 
     /** ClothesDbHelper object used to access database */
     private ClothesDbHelper mDbelper;
@@ -59,7 +64,7 @@ public class ClothesProvider extends ContentProvider {
         // Get database in readable mode.
         SQLiteDatabase db = mDbelper.getReadableDatabase();
 
-        // Check Content Uri using UriMatcher and get the code.
+        // Check Content Uri using UriMatcher and get the code corresponding with the given ContentUri
         int match = sUriMatcher.match(uri);
 
         // Cursor object which will be storing data from the query.
@@ -99,7 +104,71 @@ public class ClothesProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+
+        // Check ContentUri to get the code corresponding with the given ContentUri
+        int match = sUriMatcher.match(uri);
+
+        switch(match) {
+            case CLOTHES_CASE:
+                return insertNewCloth(uri, values);
+            default:
+                throw new IllegalArgumentException("Can not perform insertion - given Uri unknown " + uri);
+        }
+    }
+
+    /** Helper method for performing insertion of new Product into database
+     *
+     * @return Content Uri value for the newly inserted Product.
+     */
+    private Uri insertNewCloth(Uri uri, ContentValues values) {
+
+        // Check if the data which is going to be inserted into database in not null.
+        // All the fields in the new database row must be filled with data.
+        String productName = values.getAsString(ClothesEntry.COLUMN_NAME);
+        if (productName == null) {
+            throw new IllegalArgumentException("Product requires a name");
+        }
+
+        Double price = values.getAsDouble(ClothesEntry.COLUMN_PRICE);
+        if (price == null || price <= 0) {
+            throw new IllegalArgumentException("Product requires valid price");
+        }
+
+        Integer quantity = values.getAsInteger(ClothesEntry.COLUMN_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Product requires valid quantity");
+        }
+
+        String supplier = values.getAsString(ClothesEntry.COLUMN_SUPPLIER);
+        if(supplier == null) {
+            throw new IllegalArgumentException("Product requires a supplier name");
+        }
+
+        String supplierPhone = values.getAsString(ClothesEntry.COLUMN_SUPPLIER);
+        if(supplierPhone == null) {
+            throw new IllegalArgumentException("Product requires a supplier phone number");
+        }
+
+        Integer category = values.getAsInteger(ClothesEntry.COLUMN_CATEGORY);
+        if (category == null || !ClothesEntry.isValidCategory(category)) {
+            throw new IllegalArgumentException("Product requires a valid category");
+        }
+
+        // Get database in writable mode to be able to insert data into it.
+        SQLiteDatabase db = mDbelper.getWritableDatabase();
+
+        // Perform insertion.
+        // Return newRowId number which will be id for the newly inserted product.
+        long newRowId = db.insert(ClothesEntry.TABLE_NAME, null, values);
+
+        // If the insertion isn't successful, newIdRow will be -1
+        // Then return null
+        if(newRowId == -1) {
+            Log.e(LOG_TAG, "Failed to insert new Product for Uri " + uri);
+            return null;
+        }
+        // Return newly created full ContentUri for new Product inserted into database
+        return ContentUris.withAppendedId(uri, newRowId);
     }
 
     @Override

@@ -91,5 +91,19 @@ public class ClothesContract {
         public static final int CATEGORY_TROUSERS = 3;
         public static final int CATEGORY_SKIRT = 4;
         public static final int CATEGORY_DRESS = 5;
+
+        /**
+         * Helper method for checking is category is valid
+         *
+         * @return true if categoryCode is valid or false if is not.
+         */
+        public static boolean isValidCategory(int categoryCode) {
+            if (categoryCode == CATEGORY_OTHER || categoryCode == CATEGORY_TSHIRT
+                    || categoryCode == CATEGORY_SHIRT || categoryCode == CATEGORY_TROUSERS
+                    || categoryCode == CATEGORY_SKIRT || categoryCode == CATEGORY_DRESS) {
+                return true;
+            }
+            return false;
+        }
     }
 }
