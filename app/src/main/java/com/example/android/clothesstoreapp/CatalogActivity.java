@@ -2,6 +2,7 @@ package com.example.android.clothesstoreapp;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
+
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
 import com.example.android.clothesstoreapp.data.ClothesContract;
@@ -36,6 +39,15 @@ public class CatalogActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        Cursor cursor = getContentResolver().query(ClothesEntry.CLOTHES_CONTENT_URI,
+                null, null, null, null);
+
+     ClothesCursorAdapter adapter = new ClothesCursorAdapter(this, cursor);
+
+        ListView catalogListView = findViewById(R.id.catalog_list);
+
+        catalogListView.setAdapter(adapter);
     }
 
     @Override
