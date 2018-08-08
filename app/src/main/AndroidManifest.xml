@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CatalogActivity">
-            <intent-filter>
+        <activity android:name=".CatalogActivity"
+            android:label="@string/catalog_activity_name">
+            <intent-filter
+                android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -19,13 +21,14 @@
         <activity
             android:name=".EditorActivity"
             android:parentActivityName=".CatalogActivity" />
-
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/detail_activity_name"
+            android:parentActivityName=".CatalogActivity"/>
         <provider
             android:name=".data.ClothesProvider"
             android:authorities="com.example.android.clothesstoreapp"
             android:exported="false" />
-        <activity android:name=".DetailActivity"
-            android:parentActivityName=".CatalogActivity"/>
     </application>
 
 </manifest>

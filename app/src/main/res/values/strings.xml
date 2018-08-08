@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Clothes Store App</string>
+    <string name="catalog_activity_name">Products Catalog</string>
+    <string name="detail_activity_name">Product Details</string>
+    <string name="editor_activity_add">Add Product</string>
+    <string name="editor_activity_edit">Edit Product</string>
 
     <!-- Product Overview Label [CHAR LIMIT=20] -->
     <string name="product_overview_label">Overview</string>

@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_editor_single_view_height"
                 android:hint="@string/product_supplier_edit_text_hint_phone"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="9"
                 style="@style/EditTextStyle"/>
         </LinearLayout>

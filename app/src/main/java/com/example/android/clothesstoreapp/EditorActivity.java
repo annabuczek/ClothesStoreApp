@@ -3,6 +3,7 @@ package com.example.android.clothesstoreapp;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,12 @@ public class EditorActivity extends AppCompatActivity {
     /** Spinner showing possible Product Categories */
     private Spinner mSpinner;
 
+    // Constant to specify limit of digits user will be able to input into quantity edit text field.
+    private static final int QUANTITY_MAX_LENGTH = 3;
+
+    // Constant to specify limit of digits user will be able to input
+    // into supplier phone number edit text field
+    private static final int PHONE_NUMBER_MAX_LENGTH = 9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,17 @@ public class EditorActivity extends AppCompatActivity {
         mQuantityEditText = findViewById(R.id.quantity_edit_text);
         mSupplierNameEditText = findViewById(R.id.supplier_name_edit_text);
         mSupplierPhone = findViewById(R.id.supplier_phone_edit_text);
+
+        // Set InputFilter.LengthFilter on mQuantityEditText to limit number of characters user may input
+        mQuantityEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(QUANTITY_MAX_LENGTH)});
+
+        // Apply InputFilter.LengthFilter on mSupplierPhoneNumber to limit number of characters user may input
+        mSupplierPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(PHONE_NUMBER_MAX_LENGTH)});
+
+        // Apply TwoDigitsDecimalInputFilter which implements InputFilter interface
+        // in order to limit user input to mach pattern
+        // which in this case is "xxx.xx"
+        mPriceEditText.setFilters(new InputFilter[]{new TwoDigitsDecimalInputFilter(3, 2)});
 
         setupSpinner();
 
@@ -60,6 +78,10 @@ public class EditorActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch(id) {
             case R.id.menu_editor_save:
+                boolean isSaved = saveProduct();
+                if (isSaved) {
+                    finish();
+                }
                 return true;
             case android.R.id.home:
                 // Navigate back to the previous activity
@@ -92,5 +114,15 @@ public class EditorActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    /** Collects all the information from the user input and save in into database
+     *
+     * @return true if information is valid and saved
+     *         false if information can not be saved
+     */
+    private boolean saveProduct() {
+
+    return false;
     }
 }
