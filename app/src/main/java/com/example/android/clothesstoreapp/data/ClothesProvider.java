@@ -24,7 +24,7 @@ public class ClothesProvider extends ContentProvider {
     private String LOG_TAG = ClothesProvider.class.getSimpleName();
 
     /** ClothesDbHelper object used to access database */
-    private ClothesDbHelper mDbelper;
+    private ClothesDbHelper mDbHelper;
 
     /** Uri matcher code for the clothes table content Uri */
     private final static int CLOTHES_CASE = 100;
@@ -53,7 +53,7 @@ public class ClothesProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         // Create new instance of ClothesDbHelper object to be able to access database.
-        mDbelper = new ClothesDbHelper(getContext());
+        mDbHelper = new ClothesDbHelper(getContext());
         return true;
     }
 
@@ -62,7 +62,7 @@ public class ClothesProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
         // Get database in readable mode.
-        SQLiteDatabase db = mDbelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // Check Content Uri using UriMatcher and get the code corresponding with the given ContentUri
         int match = sUriMatcher.match(uri);
@@ -91,6 +91,9 @@ public class ClothesProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot perform query - given Uri unknown  " + uri);
         }
+
+        // Set notifications on a given uri to inform the loader about changes
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
@@ -155,7 +158,7 @@ public class ClothesProvider extends ContentProvider {
         }
 
         // Get database in writable mode to be able to insert data into it.
-        SQLiteDatabase db = mDbelper.getWritableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Perform insertion.
         // Return newRowId number which will be id for the newly inserted product.
@@ -167,6 +170,10 @@ public class ClothesProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert new Product for Uri " + uri);
             return null;
         }
+
+        // Notify changes for a given uri to reload Cursor
+        getContext().getContentResolver().notifyChange(uri, null);
+
         // Return newly created full ContentUri for new Product inserted into database
         return ContentUris.withAppendedId(uri, newRowId);
     }
