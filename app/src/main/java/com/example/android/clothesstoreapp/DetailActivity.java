@@ -92,8 +92,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_detail_edit:
-                // TODO edit item
-                // Sent intent to edit activity
+                // Sent intent to the Editor Activity containing current Product Uri
+                Intent i = new Intent(DetailActivity.this, EditorActivity.class);
+                i.setData(mCurrentUri);
+                startActivity(i);
                 return true;
             case R.id.menu_detail_delete:
                 //TODO delete item
@@ -164,16 +166,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     categoryString = getString(R.string.category_tshirt);
                     break;
                 case ClothesEntry.CATEGORY_SHIRT:
-                    categoryString = getString(R.string.category_tshirt);
+                    categoryString = getString(R.string.category_shirt);
                     break;
                 case ClothesEntry.CATEGORY_TROUSERS:
-                    categoryString = getString(R.string.category_tshirt);
+                    categoryString = getString(R.string.category_trousers);
                     break;
                 case ClothesEntry.CATEGORY_SKIRT:
-                    categoryString = getString(R.string.category_tshirt);
+                    categoryString = getString(R.string.category_skirt);
                     break;
                 case ClothesEntry.CATEGORY_DRESS:
-                    categoryString = getString(R.string.category_tshirt);
+                    categoryString = getString(R.string.category_dress);
                     break;
                 default:
                     categoryString = getString(R.string.category_other);

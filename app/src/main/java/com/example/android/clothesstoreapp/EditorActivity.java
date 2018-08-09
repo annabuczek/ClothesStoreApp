@@ -1,7 +1,12 @@
 package com.example.android.clothesstoreapp;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -21,13 +26,17 @@ import android.widget.Toast;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // Constant to specify limit of digits user will be able to input into quantity edit text field.
     private static final int QUANTITY_MAX_LENGTH = 3;
     // Constant to specify limit of digits user will be able to input
     // into supplier phone number edit text field
     private static final int PHONE_NUMBER_MAX_LENGTH = 9;
+
+    /** The ID of the Loader used to load data for the existing product if Activity id 'edit' mode */
+    private static final int EDITOR_LOADER_ID = 1;
+
     /**
      * EditText for the Name of the Product
      */
@@ -82,18 +91,24 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        if (mCurrentUri == null) {
-            setTitle(R.string.editor_activity_add);
-        }
-
-        setupSpinner();
-
         //Find Views for further use
         mNameEditText = findViewById(R.id.name_edit_text);
         mPriceEditText = findViewById(R.id.price_edit_text);
         mQuantityEditText = findViewById(R.id.quantity_edit_text);
         mSupplierNameEditText = findViewById(R.id.supplier_name_edit_text);
         mSupplierPhoneEditText = findViewById(R.id.supplier_phone_edit_text);
+
+        setupSpinner();
+
+        Intent i = getIntent();
+        mCurrentUri = i.getData();
+
+        if (mCurrentUri == null) {
+            setTitle(R.string.editor_activity_add);
+        } else {
+            setTitle(R.string.editor_activity_edit);
+            getLoaderManager().initLoader(EDITOR_LOADER_ID, null, this);
+        }
 
         // Set OnTouchListener to be notified weather the user changed any data
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -168,9 +183,9 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
-        /**
-         * Setup the dropdown Spinner which allow the user to select category of the Product
-         */
+    /**
+     * Setup the dropdown Spinner which allow the user to select category of the Product
+     */
 
     private void setupSpinner() {
 
@@ -291,8 +306,19 @@ public class EditorActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.toast_new_insertion_successful), Toast.LENGTH_SHORT).show();
                 return true;
             }
+            // If mCurrentUri has a value it means that we are editing existing product
+            // so we need to perform update instead of insert
+        } else {
+             int numOfRowsUpdated = getContentResolver().update(mCurrentUri, values, null, null);
+
+             if (numOfRowsUpdated == 0) {
+                 Toast.makeText(this, getString(R.string.toast_update_failed), Toast.LENGTH_SHORT).show();
+                 return false;
+             } else {
+                 Toast.makeText(this, getString(R.string.toast_update_successful), Toast.LENGTH_SHORT).show();
+                 return true;
+             }
         }
-        return false;
     }
 
     /**
@@ -315,5 +341,81 @@ public class EditorActivity extends AppCompatActivity {
         // Create and show dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    // Use Loader to Load existing Product data into EditText views
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // Define what data needs to be received from the query
+
+        String[] projection = {ClothesEntry._ID,
+                ClothesEntry.COLUMN_NAME,
+                ClothesEntry.COLUMN_PRICE,
+                ClothesEntry.COLUMN_QUANTITY,
+                ClothesEntry.COLUMN_SUPPLIER,
+                ClothesEntry.COLUMN_SUPPLIER_PHONE,
+                ClothesEntry.COLUMN_CATEGORY};
+
+        return new CursorLoader(this, // the Context of the app
+                mCurrentUri,                  // ContentUri for which query needs to be performed
+                projection,                   // which columns query should include
+                null,                // selection - specified by Uri
+                null,             // selection arguments - specified by Uri
+                null);               // sort Order null
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // Of the Cursor object is null or there is no data in the Cursor, return early;
+        if (cursor == null || cursor.getCount() < 0) {
+            return;
+        }
+        // Move cursor to the first position and read data from it
+        if (cursor.moveToFirst()) {
+            String productName = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_NAME));
+            double price = cursor.getDouble(cursor.getColumnIndex(ClothesEntry.COLUMN_PRICE));
+            int quantity = cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_QUANTITY));
+            String supplier = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_SUPPLIER));
+            String supplierPhone = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_SUPPLIER_PHONE));
+            int category = cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_CATEGORY));
+
+            // Set values on the EditText views
+            mNameEditText.setText(productName);
+            mPriceEditText.setText(String.valueOf(price));
+            mQuantityEditText.setText(String.valueOf(quantity));
+            mSupplierNameEditText.setText(supplier);
+            mSupplierPhoneEditText.setText(supplierPhone);
+
+            // Set spinner for a proper category
+            switch (category) {
+                case ClothesEntry.CATEGORY_TSHIRT:
+                    mSpinner.setSelection(ClothesEntry.CATEGORY_TSHIRT);
+                    break;
+                case ClothesEntry.CATEGORY_SHIRT:
+                    mSpinner.setSelection(ClothesEntry.CATEGORY_SHIRT);
+                    break;
+                case ClothesEntry.CATEGORY_TROUSERS:
+                    mSpinner.setSelection(ClothesEntry.CATEGORY_TROUSERS);
+                    break;
+                case ClothesEntry.CATEGORY_SKIRT:
+                    mSpinner.setSelection(ClothesEntry.CATEGORY_SKIRT);
+                    break;
+                case ClothesEntry.CATEGORY_DRESS:
+                    mSpinner.setSelection(ClothesEntry.CATEGORY_DRESS);
+                    break;
+                default:
+                    mSpinner.setSelection(ClothesEntry.CATEGORY_OTHER);
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mNameEditText.setText("");
+        mPriceEditText.setText(String.valueOf(""));
+        mQuantityEditText.setText(String.valueOf(""));
+        mSupplierNameEditText.setText("");
+        mSupplierPhoneEditText.setText("");
+        mSpinner.setSelection(ClothesEntry.CATEGORY_OTHER);
     }
 }
