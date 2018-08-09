@@ -1,6 +1,7 @@
 package com.example.android.clothesstoreapp;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -56,11 +57,14 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         mAdapter = new ClothesCursorAdapter(this, null);
         catalogListView.setAdapter(mAdapter);
 
-        //Set OnClickListener on the list view item
+        // Set OnCItemClickListener and a catalogListView list item
+        // Open DetailActivity and send current item Content Uri
         catalogListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent i = new Intent(CatalogActivity.this, DetailActivity.class);
+                i.setData(ContentUris.withAppendedId(ClothesEntry.CLOTHES_CONTENT_URI, id));
                 startActivity(i);
             }
         });
