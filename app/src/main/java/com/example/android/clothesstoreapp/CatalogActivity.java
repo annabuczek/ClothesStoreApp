@@ -23,8 +23,6 @@ import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    double price = 23.67;
-
     /** Id of the Loader used to load the data into ListView */
     private static final int CATEGORY_LOADER_ID = 1;
 
@@ -83,8 +81,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_catalog_insert:
-                insertExampleProduct(price);
-                price += 5;
+                insertExampleProduct();
                 return true;
             case R.id.menu_catalog_delete_all:
                 return true;
@@ -93,23 +90,22 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     /** Method used to insert example product into a database
-     * For developing purposes.
+     * For debugging purposes.
      */
-    public void insertExampleProduct(double price) {
+    public void insertExampleProduct() {
 
         // set values to be inserted
         ContentValues values = new ContentValues();
-        values.put(ClothesEntry.COLUMN_NAME, "pierwsza dodana koszula");
-        values.put(ClothesEntry.COLUMN_PRICE, price);
+        values.put(ClothesEntry.COLUMN_NAME, "Example Dress");
+        values.put(ClothesEntry.COLUMN_PRICE, 89.99);
         values.put(ClothesEntry.COLUMN_QUANTITY, "45");
-        values.put(ClothesEntry.COLUMN_SUPPLIER, "Zara");
+        values.put(ClothesEntry.COLUMN_SUPPLIER, "ExpressProduct");
         values.put(ClothesEntry.COLUMN_SUPPLIER_PHONE, "678342765");
-        values.put(ClothesEntry.COLUMN_CATEGORY, ClothesEntry.CATEGORY_TSHIRT);
+        values.put(ClothesEntry.COLUMN_CATEGORY, ClothesEntry.CATEGORY_DRESS);
 
         // Insert Data using ContentProvider, return ContentUri of newly inserted product
         Uri newProductUri = getContentResolver().insert(ClothesEntry.CLOTHES_CONTENT_URI, values);
 
-        Toast.makeText(this, "New product insertion successful for Uri " + newProductUri, Toast.LENGTH_SHORT).show();
         Log.v("CatalogActivity", "Uri for the inserted Product " + newProductUri);
     }
 

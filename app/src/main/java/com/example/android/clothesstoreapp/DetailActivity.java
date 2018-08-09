@@ -2,11 +2,13 @@ package com.example.android.clothesstoreapp;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,19 +73,80 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
      */
     private String mSupplierPhone;
 
+    /**
+     * Integer variable storing value of the current quantity of the Product
+     */
+    private int mQuantity;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // Find views for further use
+        ImageButton quantityIncreaseButton = findViewById(R.id.quantity_button_up);
+        ImageButton quantityDecreaseButton = findViewById(R.id.quantity_button_down);
+        ImageButton supplierCallButton = findViewById(R.id.detail_call_button);
+        // Find views
+        mNameTv = findViewById(R.id.detail_name);
+        mCategoryTv = findViewById(R.id.detail_category);
+        mPriceTv = findViewById(R.id.detail_price);
+        mQuantityTv = findViewById(R.id.detail_quantity);
+        mSupplierTv = findViewById(R.id.detail_supplier);
+        mSupplierPhoneTv = findViewById(R.id.detail_supplier_phone);
+
+        // Receive intent with ContentUri for the currently shown product
         Intent i = getIntent();
         mCurrentUri = i.getData();
 
+        // If ContentUri was properly received kick off the loader to load data
         if (mCurrentUri != null) {
             Log.v("DetailActivity", "Uri of the currently showed Product is " + mCurrentUri);
 
             getLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
         }
+
+        // Set OnClickListener on the increase button to increase quantity of the product
+        // and update it in a database
+        quantityIncreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mQuantity += 1;
+
+                ContentValues values = new ContentValues();
+                values.put(ClothesEntry.COLUMN_QUANTITY, mQuantity);
+
+                getContentResolver().update(mCurrentUri, values, null, null);
+            }
+        });
+
+        // Set OnClickListener on the decrease button to decrease quantity of the product
+        // and update it in a database
+        quantityDecreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mQuantity -= 1;
+
+                ContentValues values = new ContentValues();
+                values.put(ClothesEntry.COLUMN_QUANTITY, mQuantity);
+
+                getContentResolver().update(mCurrentUri, values, null, null);
+            }
+        });
+
+        // Set OnClickListener on a call button to call supplier
+        supplierCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Intent.ACTION_DIAL);
+                Uri supplierPhoneUri = Uri.parse("tel:" + mSupplierPhone);
+                i.setData(supplierPhoneUri);
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override
@@ -126,7 +192,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(DetailActivity.this, getString(R.string.toast_single_product_delete), Toast.LENGTH_SHORT).show();
             }
         });
-        // set negavite button to dismiss dialog and make no changes in the database
+        // set negative button to dismiss dialog and make no changes in the database
         builder.setNegativeButton(R.string.dialog_delete_negative_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -173,23 +239,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (cursor.moveToFirst()) {
             String productName = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_NAME));
             double price = cursor.getDouble(cursor.getColumnIndex(ClothesEntry.COLUMN_PRICE));
-            int quantity = cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_QUANTITY));
+            mQuantity = cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_QUANTITY));
             String supplier = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_SUPPLIER));
             mSupplierPhone = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_SUPPLIER_PHONE));
             int category = cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_CATEGORY));
 
-            // Find views
-            mNameTv = findViewById(R.id.detail_name);
-            mCategoryTv = findViewById(R.id.detail_category);
-            mPriceTv = findViewById(R.id.detail_price);
-            mQuantityTv = findViewById(R.id.detail_quantity);
-            mSupplierTv = findViewById(R.id.detail_supplier);
-            mSupplierPhoneTv = findViewById(R.id.detail_supplier_phone);
-
             // Set values on the views
             mNameTv.setText(productName);
             mPriceTv.setText(String.valueOf(price));
-            mQuantityTv.setText(String.valueOf(quantity));
+            mQuantityTv.setText(String.valueOf(mQuantity));
             mSupplierTv.setText(supplier);
             mSupplierPhoneTv.setText(mSupplierPhone);
 
