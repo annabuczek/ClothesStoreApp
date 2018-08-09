@@ -33,6 +33,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
      */
     private static final int DETAIL_LOADER_ID = 1;
 
+    /** Maximum quantity number of products that can be stored in a database */
+    private static final int MAX_PRODUCT_QUANTITY = 999;
+
+    /** Minimum quantity number of products that can be stored in a database */
+    private static final int MIN_PRODUCT_QUANTITY = 0;
+
     /**
      * Content Uri of the currently shown Product
      */
@@ -112,12 +118,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         quantityIncreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mQuantity += 1;
+                // Increase quantity number only if quantity is not bigger than maximum value
+                if (!(mQuantity >= MAX_PRODUCT_QUANTITY)) {
+                    mQuantity += 1;
 
-                ContentValues values = new ContentValues();
-                values.put(ClothesEntry.COLUMN_QUANTITY, mQuantity);
+                    ContentValues values = new ContentValues();
+                    values.put(ClothesEntry.COLUMN_QUANTITY, mQuantity);
 
-                getContentResolver().update(mCurrentUri, values, null, null);
+                    getContentResolver().update(mCurrentUri, values, null, null);
+                }
             }
         });
 
@@ -126,12 +135,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         quantityDecreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mQuantity -= 1;
+                // Decrease quantity number only if quantity is not equal or lower than minimum value
+                if (!(mQuantity <= MIN_PRODUCT_QUANTITY)) {
+                    mQuantity -= 1;
 
-                ContentValues values = new ContentValues();
-                values.put(ClothesEntry.COLUMN_QUANTITY, mQuantity);
+                    ContentValues values = new ContentValues();
+                    values.put(ClothesEntry.COLUMN_QUANTITY, mQuantity);
 
-                getContentResolver().update(mCurrentUri, values, null, null);
+                    getContentResolver().update(mCurrentUri, values, null, null);
+                }
             }
         });
 

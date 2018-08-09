@@ -88,6 +88,12 @@
     <string name="dialog_delete_negative_button">Cancel</string>
     <string name="toast_single_product_delete">Product deleted</string>
 
+    <!--Delete all products -->
+    <string name="dialog_delete_all_message">Delete all Products?</string>
+    <string name="dialog_delete_all_positive_button">Delete All</string>
+    <string name="dialog_delete_all_negative_button">Cancel</string>
+    <string name="toast_all_products_delete">All Products deleted</string>
+
     <!-- Sell Product -->
     <string name="toast_sell_zero">You have no Products to sell</string>
     <string name="toast_sell_sold">Product sold</string>

@@ -1,9 +1,12 @@
 package com.example.android.clothesstoreapp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -84,6 +87,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 insertExampleProduct();
                 return true;
             case R.id.menu_catalog_delete_all:
+                showDeleteAllDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -107,6 +111,37 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         Uri newProductUri = getContentResolver().insert(ClothesEntry.CLOTHES_CONTENT_URI, values);
 
         Log.v("CatalogActivity", "Uri for the inserted Product " + newProductUri);
+    }
+
+    /**
+     * Build Alert Dialog to show to the user before all of the products will be deleted
+     */
+    private void showDeleteAllDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Set Dialog message
+        builder.setMessage(R.string.dialog_delete_all_message);
+        // Set positive button behaviour to delete Product from the database,
+        // inform the user and exit activity
+        builder.setPositiveButton(R.string.dialog_delete_all_positive_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getContentResolver().delete(ClothesEntry.CLOTHES_CONTENT_URI, null, null);
+                Toast.makeText(CatalogActivity.this, getString(R.string.toast_all_products_delete), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // set negative button to dismiss dialog and make no changes in the database
+        builder.setNegativeButton(R.string.dialog_delete_all_negative_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
