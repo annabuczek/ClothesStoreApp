@@ -1,7 +1,9 @@
 package com.example.android.clothesstoreapp;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
@@ -28,43 +31,42 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Content Uri of the currently shown Product
      */
-    Uri mCurrentUri;
+    private Uri mCurrentUri;
 
     /**
      * TextView showing the name of the product
      */
-    TextView mNameTv;
+    private TextView mNameTv;
 
     /**
      * TextView showing the price of the product
      */
-    TextView mPriceTv;
+    private TextView mPriceTv;
 
     /**
      * TextView showing the quantity of the product
      */
-    TextView mQuantityTv;
+    private TextView mQuantityTv;
 
     /**
      * TextView showing the category of the product
      */
-    TextView mCategoryTv;
+    private TextView mCategoryTv;
 
     /**
      * TextView showing the supplier of the product
      */
-    TextView mSupplierTv;
+    private TextView mSupplierTv;
 
     /**
      * TextView showing the supplier phone
      */
-    TextView mSupplierPhoneTv;
+    private TextView mSupplierPhoneTv;
 
     /**
      * String variable storing value of the Supplier Phone Number for the currently shown product
      */
-    String mSupplierPhone;
-
+    private String mSupplierPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,13 +100,45 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 startActivity(i);
                 return true;
             case R.id.menu_detail_delete:
-                //TODO delete item
+                showDeleteDialog();
                 return true;
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Build Alert Dialog to show to the user before product will be deleted
+     */
+    private void showDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Set Dialog message
+        builder.setMessage(R.string.dialog_delete_message);
+        // Set positive button behaviour to delete Product from the database,
+        // inform the user and exit activity
+        builder.setPositiveButton(R.string.dialog_delete_positive_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getContentResolver().delete(mCurrentUri, null, null);
+                DetailActivity.this.finish();
+                Toast.makeText(DetailActivity.this, getString(R.string.toast_single_product_delete), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // set negavite button to dismiss dialog and make no changes in the database
+        builder.setNegativeButton(R.string.dialog_delete_negative_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @NonNull

@@ -82,9 +82,15 @@
     <string name="toast_update_change_data">Put new data for Product update</string>
     <string name="toast_update_successful">Product updated</string>
 
+    <!-- Delete product -->
+    <string name="dialog_delete_message">Delete Product?</string>
+    <string name="dialog_delete_positive_button">Delete</string>
+    <string name="dialog_delete_negative_button">Cancel</string>
+    <string name="toast_single_product_delete">Product deleted</string>
+
     <!-- Sell Product -->
     <string name="toast_sell_zero">You have no Products to sell</string>
-    <string name="toast_sell_sold">Product has been sold</string>
+    <string name="toast_sell_sold">Product sold</string>
 
     <!-- Unsaved Changes Dialog -->
     <string name="dialog_unsaved_message">Discard changes and leave?</string>

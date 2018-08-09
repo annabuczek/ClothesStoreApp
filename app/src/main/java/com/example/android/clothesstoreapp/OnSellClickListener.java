@@ -3,6 +3,7 @@ package com.example.android.clothesstoreapp;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class OnSellClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+        Log.d("OnSellClickListener", "Show id " + mId);
         // if quantity value is 0, then nothing changes
         if (mQuantity <= 0) {
             Toast.makeText(mContext, mContext.getString(R.string.toast_sell_zero), Toast.LENGTH_SHORT).show();
