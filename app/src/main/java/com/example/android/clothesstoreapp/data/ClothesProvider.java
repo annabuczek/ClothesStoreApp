@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
@@ -20,19 +19,17 @@ import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
 public class ClothesProvider extends ContentProvider {
 
-    /** Tag for Logs */
-    private String LOG_TAG = ClothesProvider.class.getSimpleName();
-
-    /** ClothesDbHelper object used to access database */
-    private ClothesDbHelper mDbHelper;
-
-    /** Uri matcher code for the clothes table content Uri */
+    /**
+     * Uri matcher code for the clothes table content Uri
+     */
     private final static int CLOTHES_CASE = 100;
-
-    /** Uri matcher code for the content Uri corresponding with the single cloth row */
+    /**
+     * Uri matcher code for the content Uri corresponding with the single cloth row
+     */
     private final static int CLOTHES_ID_CASE = 101;
-
-    /** Uri Matcher responsible for checking content Uri and returning particular case code */
+    /**
+     * Uri Matcher responsible for checking content Uri and returning particular case code
+     */
     private final static UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
@@ -49,6 +46,15 @@ public class ClothesProvider extends ContentProvider {
          */
         sUriMatcher.addURI(ClothesContract.CONTENT_AUTHORITY, ClothesContract.CLOTHES_PATH + "/#", CLOTHES_ID_CASE);
     }
+
+    /**
+     * Tag for Logs
+     */
+    private String LOG_TAG = ClothesProvider.class.getSimpleName();
+    /**
+     * ClothesDbHelper object used to access database
+     */
+    private ClothesDbHelper mDbHelper;
 
     @Override
     public boolean onCreate() {
@@ -70,7 +76,7 @@ public class ClothesProvider extends ContentProvider {
         // Cursor object which will be storing data from the query.
         Cursor cursor;
 
-        switch(match) {
+        switch (match) {
             case CLOTHES_CASE:
                 // Perform query on the database and return Cursor object.
                 // Query performed on the whole table returning Cursor containing multiple rows.
@@ -83,7 +89,7 @@ public class ClothesProvider extends ContentProvider {
                 // selection and selectionArgs are defined to perform query for according to the
                 // ContentUri by given Product ID
                 selection = ClothesEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 cursor = db.query(ClothesEntry.TABLE_NAME, projection, selection,
                         selectionArgs, null, null, sortOrder);
@@ -100,30 +106,25 @@ public class ClothesProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public String getType(@NonNull Uri uri) {
-        return null;
-    }
-
-    @Nullable
-    @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
 
         // Check ContentUri to get the code corresponding with the given ContentUri
         int match = sUriMatcher.match(uri);
 
-        switch(match) {
+        switch (match) {
             case CLOTHES_CASE:
-                return insertNewCloth(uri, values);
+                return insertNewProduct(uri, values);
             default:
                 throw new IllegalArgumentException("Can not perform insertion - given Uri unknown " + uri);
         }
     }
 
-    /** Helper method for performing insertion of new Product into database
+    /**
+     * Helper method for performing insertion of new Product into database
      *
      * @return Content Uri value for the newly inserted Product.
      */
-    private Uri insertNewCloth(Uri uri, ContentValues values) {
+    private Uri insertNewProduct(Uri uri, ContentValues values) {
 
         // Check if the data which is going to be inserted into database in not null.
         // All the fields in the new database row must be filled with data.
@@ -138,17 +139,17 @@ public class ClothesProvider extends ContentProvider {
         }
 
         Integer quantity = values.getAsInteger(ClothesEntry.COLUMN_QUANTITY);
-        if (quantity != null && quantity < 0) {
+        if (quantity == null || quantity < 0) {
             throw new IllegalArgumentException("Product requires valid quantity");
         }
 
         String supplier = values.getAsString(ClothesEntry.COLUMN_SUPPLIER);
-        if(supplier == null) {
+        if (supplier == null) {
             throw new IllegalArgumentException("Product requires a supplier name");
         }
 
         String supplierPhone = values.getAsString(ClothesEntry.COLUMN_SUPPLIER);
-        if(supplierPhone == null) {
+        if (supplierPhone == null) {
             throw new IllegalArgumentException("Product requires a supplier phone number");
         }
 
@@ -166,7 +167,7 @@ public class ClothesProvider extends ContentProvider {
 
         // If the insertion isn't successful, newIdRow will be -1
         // Then return null
-        if(newRowId == -1) {
+        if (newRowId == -1) {
             Log.e(LOG_TAG, "Failed to insert new Product for Uri " + uri);
             return null;
         }
@@ -180,11 +181,143 @@ public class ClothesProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        // Check the Content Uri against Uri Matcher to see if it falls in one of the specified cases
+        int match = sUriMatcher.match(uri);
+
+        // Set database in a writable mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        int numOfRowsDeleted;
+
+        switch (match) {
+            // Perform deletion on the whole table based on gives selection and selection arguments
+            // Return number of rows deleted
+            case CLOTHES_CASE:
+                numOfRowsDeleted = db.delete(ClothesEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            // Delete single row in the tale based on given ContentUri
+            case CLOTHES_ID_CASE:
+                // Selection will be ID of the Product
+                selection = ClothesEntry._ID + "=?";
+                // Selection argument will ve ID value extracted from the ContentUri
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                numOfRowsDeleted = db.delete(ClothesEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Con not delete for uri " + uri);
+        }
+
+        // if there were any rows deleted, then send notification to the CursorLoader
+        // to reload the Cursor
+        if (numOfRowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return numOfRowsDeleted;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+
+        // Check the Content Uri against Uri Matcher to see if it falls in one of the specified cases
+        int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            // Update data in the whole table
+            case CLOTHES_CASE:
+                return updateProduct(uri, values, selection, selectionArgs);
+            // Update data for the Content Uri for a single product
+            case CLOTHES_ID_CASE:
+                // Selection will be ID of the Product
+                selection = ClothesEntry._ID + "=?";
+                // Selection argument will ve ID value extracted from the ContentUri
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updateProduct(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not possible for uri " + uri);
+        }
+    }
+
+    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+
+        // Perform sanity check for all of the values to prevent from inserting null values into database
+        if (values.containsKey(ClothesEntry.COLUMN_NAME)) {
+            String name = values.getAsString(ClothesEntry.COLUMN_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
+
+        if (values.containsKey(ClothesEntry.COLUMN_PRICE)) {
+            Integer price = values.getAsInteger(ClothesEntry.COLUMN_PRICE);
+            if (price == null || price <= 0) {
+                throw new IllegalArgumentException("Product requires a valid price");
+            }
+        }
+
+        if (values.containsKey(ClothesEntry.COLUMN_QUANTITY)) {
+            Integer quantity = values.getAsInteger(ClothesEntry.COLUMN_QUANTITY);
+            if (quantity == null || quantity < 0) {
+                throw new IllegalArgumentException("Product requires a quantity");
+            }
+        }
+
+        if (values.containsKey(ClothesEntry.COLUMN_SUPPLIER)) {
+            String supplier = values.getAsString(ClothesEntry.COLUMN_SUPPLIER);
+            if (supplier == null) {
+                throw new IllegalArgumentException("Product requires a supplier");
+            }
+        }
+
+        if (values.containsKey(ClothesEntry.COLUMN_SUPPLIER_PHONE)) {
+            String supplierPhone = values.getAsString(ClothesEntry.COLUMN_SUPPLIER_PHONE);
+            if (supplierPhone == null) {
+                throw new IllegalArgumentException("Product requires Supplier Phone");
+            }
+        }
+
+        if (values.containsKey(ClothesEntry.COLUMN_CATEGORY)) {
+            Integer category = values.getAsInteger(ClothesEntry.COLUMN_CATEGORY);
+            if (category == null || !ClothesEntry.isValidCategory(category)) {
+                throw new IllegalArgumentException("Product needs a valid category");
+            }
+        }
+
+        // No need to update database if there are no values to put into in
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Set database in a writable mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Update product.
+        // Return number of rows updated
+        int numOfRowsUpdated = db.update(ClothesEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        // If numOfRowsUpdated was different than 0, it means there were some products updated,
+        // then send notification to the CursorLoader that data for Uri changed and Cursor must be reloaded
+        if (numOfRowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return numOfRowsUpdated;
+    }
+
+    @Nullable
+    @Override
+    public String getType(@NonNull Uri uri) {
+
+        // Check the Content Uri against Uri Matcher to see if it falls in one of the specified cases
+        int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case CLOTHES_CASE:
+                return ClothesEntry.CONTENT_LIST_TYPE;
+            case CLOTHES_ID_CASE:
+                return ClothesEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown Uri " + uri + "with match " + match);
+        }
     }
 }

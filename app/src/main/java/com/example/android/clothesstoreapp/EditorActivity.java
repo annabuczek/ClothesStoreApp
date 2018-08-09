@@ -128,8 +128,7 @@ public class EditorActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_editor_save:
-                boolean isSaved = saveProduct();
-                if (isSaved) {
+                if (saveProduct()) {
                     finish();
                 }
                 return true;

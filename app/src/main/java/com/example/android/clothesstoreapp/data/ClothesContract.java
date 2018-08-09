@@ -1,5 +1,6 @@
 package com.example.android.clothesstoreapp.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -39,7 +40,13 @@ public class ClothesContract {
          */
         public static final Uri CLOTHES_CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, CLOTHES_PATH);
 
-        //TODO Mime type
+        /** The MIME type of the {@link #CLOTHES_CONTENT_URI} for a list of Products */
+        public static final String CONTENT_LIST_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + CLOTHES_PATH;
+
+        /** The MIME type of the {@link #CLOTHES_CONTENT_URI} for a list of Products */
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + CLOTHES_PATH;
 
         /**
          * The name of the table in the database

@@ -72,8 +72,14 @@
     <string name="toast_invalid_supplier">Supplier Name must be specified</string>
     <string name="toast_invalid_phone">Supplier Phone must be specified</string>
     <string name="toast_invalid_phone_digits">Supplier Phone must have 9 digits</string>
+
+    <!-- Inserting Product -->
     <string name="toast_new_insertion_failed">Failed to add new Product</string>
     <string name="toast_new_insertion_successful">New Product added</string>
+
+    <!-- Updating product -->
+    <string name="toast_update_failed">Failed to update Product</string>
+    <string name="toast_update_successful">Product updated</string>
 
     <!-- Unsaved Changes Dialog -->
     <string name="dialog_unsaved_message">Discard changes and leave?</string>
