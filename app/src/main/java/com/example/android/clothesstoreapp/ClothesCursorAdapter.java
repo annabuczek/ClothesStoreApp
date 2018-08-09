@@ -7,7 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
 
@@ -37,7 +41,6 @@ public class ClothesCursorAdapter extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.catalog_list_item, parent, false);
     }
 
-
     /**
      * Populate View with the data from Cursor
      */
@@ -55,26 +58,22 @@ public class ClothesCursorAdapter extends CursorAdapter {
         // Get Product Name String from the Cursor
         String productNameString = cursor.getString(cursor.getColumnIndex(ClothesEntry.COLUMN_NAME));
         // Get Quantity int from the Cursor and parse to String
-        String quantityString = String.valueOf(cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_QUANTITY)));
+        int quantity = cursor.getInt(cursor.getColumnIndex(ClothesEntry.COLUMN_QUANTITY));
+        String quantityString = String.valueOf(quantity);
         // Get Product Category String using helper method.
         String categoryString = findCategoryString(cursor, context);
         // Get Price double value from the Cursor and parse to String
         String priceString = String.valueOf(cursor.getDouble(cursor.getColumnIndex(ClothesEntry.COLUMN_PRICE)));
-
-        // Set OnClickListener on a sellButton
-        sellButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Update quantity
-                // if we use update method and loader in CatalogActivity, quantity should update itself
-            }
-        });
+        int id = cursor.getInt(cursor.getColumnIndex(ClothesEntry._ID));
 
         // Populate Views with data.
         productNameTv.setText(productNameString);
         quantityTv.setText(quantityString);
         categoryTv.setText(categoryString);
         priceTv.setText(priceString);
+
+        /** Set {@link OnSellClickListener} on a sellButton to update the quantity of the Product */
+        sellButton.setOnClickListener(new OnSellClickListener(context, quantity, id));
     }
 
     /**

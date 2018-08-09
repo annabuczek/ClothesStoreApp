@@ -101,6 +101,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         ContentValues values = new ContentValues();
         values.put(ClothesEntry.COLUMN_NAME, "pierwsza dodana koszula");
         values.put(ClothesEntry.COLUMN_PRICE, price);
+        values.put(ClothesEntry.COLUMN_QUANTITY, "45");
         values.put(ClothesEntry.COLUMN_SUPPLIER, "Zara");
         values.put(ClothesEntry.COLUMN_SUPPLIER_PHONE, "678342765");
         values.put(ClothesEntry.COLUMN_CATEGORY, ClothesEntry.CATEGORY_TSHIRT);

@@ -309,15 +309,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // If mCurrentUri has a value it means that we are editing existing product
             // so we need to perform update instead of insert
         } else {
-             int numOfRowsUpdated = getContentResolver().update(mCurrentUri, values, null, null);
 
-             if (numOfRowsUpdated == 0) {
-                 Toast.makeText(this, getString(R.string.toast_update_failed), Toast.LENGTH_SHORT).show();
-                 return false;
-             } else {
-                 Toast.makeText(this, getString(R.string.toast_update_successful), Toast.LENGTH_SHORT).show();
-                 return true;
-             }
+            // Perform update only if user changed any data
+            if (hasProductChanged) {
+                int numOfRowsUpdated = getContentResolver().update(mCurrentUri, values, null, null);
+
+                if (numOfRowsUpdated == 0) {
+                    Toast.makeText(this, getString(R.string.toast_update_failed), Toast.LENGTH_SHORT).show();
+                    return false;
+                } else {
+                    Toast.makeText(this, getString(R.string.toast_update_successful), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+                // if user hasn't changed any data, do not perform update and inform the user
+            } else {
+                Toast.makeText(this, getString(R.string.toast_update_change_data), Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
     }
 
