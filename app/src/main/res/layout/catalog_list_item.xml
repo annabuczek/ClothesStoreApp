@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/catalog_list_item_padding"
+    android:descendantFocusability="blocksDescendants">
+
+    <TextView
+        android:id="@+id/list_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Name of the product"
+        style="@style/ProductNameView"/>
+
+    <RelativeLayout
+        android:id="@+id/second_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/list_item_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="0"
+            android:layout_alignParentLeft="true"
+            style="@style/QuantityTextView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/list_item_quantity"
+            android:text="@string/list_item_quantity_text"
+            style="@style/QuantityTextView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/list_item_category"
+            android:text="@string/list_item_category_text"
+            style="@style/CategoryTextView"/>
+
+        <TextView
+            android:id="@+id/list_item_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tshirt"
+            android:textColor="@color/colorAccent"
+            style="@style/CategoryTextView"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/third_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/list_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            tools:text="0"
+            style="@style/PriceTextView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/list_item_price"
+            android:text="@string/list_item_price_text"
+            style="@style/PriceTextView"/>
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/list_item_sell_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/list_item_button_text"
+        android:background="@drawable/ripple_button"
+        style="@style/ListItemButtonStyle"/>
+
+
+</LinearLayout>

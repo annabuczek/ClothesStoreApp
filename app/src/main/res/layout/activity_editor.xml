@@ -166,6 +166,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/InputTitleTextViewStyle"
+            android:gravity="bottom|center_horizontal"
             android:text="@string/product_category_label"/>
 
         <Spinner
@@ -173,6 +174,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/activity_editor_single_view_height"
             android:layout_weight="2"
+            android:gravity="center_vertical"
             android:spinnerMode="dropdown" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

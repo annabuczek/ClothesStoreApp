@@ -12,6 +12,6 @@
     <dimen name="list_item_view_padding">8dp</dimen>
 
     <dimen name="activity_detail_layout_padding">8dp</dimen>
-    <dimen name="activity_detail_view_bottom_padding">16dp</dimen>
+    <dimen name="activity_detail_view_padding">16dp</dimen>
 
 </resources>

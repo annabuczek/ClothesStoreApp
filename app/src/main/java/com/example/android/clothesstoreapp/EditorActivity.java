@@ -192,9 +192,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSpinner = findViewById(R.id.category_spinner);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.category_spinner_array, android.R.layout.simple_spinner_item);
-
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.category_spinner_array, R.layout.spinner_item);
 
         mSpinner.setAdapter(spinnerAdapter);
 

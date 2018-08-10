@@ -92,7 +92,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         SharedPreferences getSharedPreferences = this.getPreferences(MODE_PRIVATE);
         int defaultCategoryCode = ClothesEntry.CATEGORY_ALL;
         categoryCode = getSharedPreferences.getInt(getString(R.string.shared_preference_category_key), defaultCategoryCode);
-        Toast.makeText(this, "CategoryCode " + categoryCode, Toast.LENGTH_SHORT).show();
 
         // Set proper title for the activity based on the categoryCode
         showTitle(categoryCode);
