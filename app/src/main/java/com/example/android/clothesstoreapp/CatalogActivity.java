@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.clothesstoreapp.data.ClothesContract.ClothesEntry;
@@ -32,11 +34,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     private static final int CATALOG_LOADER_ALL_ID = 1;
 
     /**
-     * Id of the Loader used to load the particular category Products into ListView
-     */
-    private static final int CATALOG_LOADER_CATEGORY_ID = 2;
-
-    /**
      * Adapter for the ListView
      */
     private ClothesCursorAdapter mAdapter;
@@ -45,6 +42,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      * Variable storing value for categoryCode retrieved from SharedPreferences
      */
     private int categoryCode;
+
+    /** View to be showed in the ListView when no data are available to display */
+    private View mEmptyView;
 
 
     @Override
@@ -65,7 +65,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Find ListView witch will be populated with data
         ListView catalogListView = findViewById(R.id.catalog_list);
 
-        //TODO Set Empty view on the ListView
+        mEmptyView = findViewById(R.id.empty_view);
+        catalogListView.setEmptyView(mEmptyView);
 
         // Create new instance of ClothesCursorAdapter object
         // And set adapter on the listView
@@ -95,6 +96,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
         // Set proper title for the activity based on the categoryCode
         showTitle(categoryCode);
+        //Set proper message on the empty view if it shows up
+        setEmptyViewMessage(categoryCode);
         // Init Loader to show the data
         getLoaderManager().initLoader(CATALOG_LOADER_ALL_ID, null, this);
     }
@@ -203,6 +206,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
                 // Set proper title for the activity based on the categoryCode
                 showTitle(categoryCode);
+
+                //Set proper message on the empty view if it shows up
+                setEmptyViewMessage(categoryCode);
                 // Restart Loader to load new data
                 getLoaderManager().restartLoader(CATALOG_LOADER_ALL_ID, null, CatalogActivity.this);
             }
@@ -223,6 +229,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         dialog.show();
     }
 
+    /** Method for setting proper title to activity based on the current category code */
     public void showTitle(int categoryCode) {
         String title;
         switch(categoryCode) {
@@ -249,6 +256,25 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 break;
         }
         setTitle(title);
+    }
+
+    /**Method for setting message in empty view based on the current category code */
+    private void setEmptyViewMessage(int categoryCode) {
+
+        // Find views inside emptyView
+        TextView titleTv = mEmptyView.findViewById(R.id.empty_view_title);
+        TextView bodyTv = mEmptyView.findViewById(R.id.empty_view_body);
+
+        // Set proper values depending on the categoryCode
+        // 6 category code shows message fot all catalog
+        // other category code shows message for particular category
+        if(categoryCode != 6) {
+            titleTv.setText(R.string.empty_view_title_category);
+            bodyTv.setText(R.string.empty_view_body_category);
+        } else {
+            titleTv.setText(R.string.empty_view_title_all);
+            bodyTv.setText(R.string.empty_view_body_all);
+        }
     }
 
     @Override

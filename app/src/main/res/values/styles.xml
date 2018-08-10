@@ -63,6 +63,20 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!-- Empty View style -->
+    <style name="EmptyViewTitleText">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Large</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:padding">@dimen/list_item_view_padding</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="EmptyViewBodyText">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/list_item_view_padding</item>
+    </style>
+
     <!-- Detail Activity styles -->
     <style name="DetailProductNameView">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>

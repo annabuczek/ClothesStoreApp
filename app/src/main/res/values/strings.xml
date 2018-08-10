@@ -14,40 +14,22 @@
     <string name="catalog_activity_title_dress">Dresses Catalog</string>
     <string name="catalog_activity_title_other">Other Products Catalog</string>
 
-    <!-- Product Overview Label [CHAR LIMIT=20] -->
+    <!-- Editor Activity -->
     <string name="product_overview_label">Overview</string>
-
-    <!-- Product Name hint for EditText [CHAR LIMIT=20] -->
     <string name="product_overview_edit_text_hint">Name</string>
 
-    <!-- Product Price Label [CHAR LIMIT=20] -->
     <string name="product_price_label">Price</string>
-
-    <!-- Product Price hint for EditText [CHAR LIMIT=20] -->
     <string name="product_price_edit_text_hint">f.e. 45.99</string>
-
-    <!-- Product Price Currency [CHAR LIMIT=3] -->
     <string name="product_price_currency">pln</string>
 
-    <!-- Product Quantity Label [CHAR LIMIT=20] -->
     <string name="product_quantity_label">Quantity</string>
-
-    <!-- Product Quantity hint for EditText [CHAR LIMIT=20] -->
     <string name="product_quantity_edit_text_hint">f.e. 8</string>
 
-    <!-- Product Supplier Label [CHAR LIMIT=20] -->
     <string name="product_supplier_label">Supplier</string>
-
-    <!-- Product Supplier Label [CHAR LIMIT=20] -->
     <string name="product_supplier_phone_label">Supplier Phone</string>
-
-    <!-- Product Supplier name hint for EditText [CHAR LIMIT=20] -->
     <string name="product_supplier_edit_text_hint_name">Name</string>
-
-    <!-- Product Supplier phone hint for EditText [CHAR LIMIT=20] -->
     <string name="product_supplier_edit_text_hint_phone">Phone</string>
 
-    <!-- Product Category Label [CHAR LIMIT=20] -->
     <string name="product_category_label">Category</string>
 
     <!-- Category Array Strings -->
@@ -85,6 +67,12 @@
     <string name="toast_invalid_supplier">Supplier Name must be specified</string>
     <string name="toast_invalid_phone">Supplier Phone must be specified</string>
     <string name="toast_invalid_phone_digits">Supplier Phone must have 9 digits</string>
+
+    <!-- Empty View Strings -->
+    <string name="empty_view_title_category">There are no Products in the chosen category</string>
+    <string name="empty_view_body_category">Change category with filter button or add new Product with button below</string>
+    <string name="empty_view_title_all">There are no Products in the catalog</string>
+    <string name="empty_view_body_all">Add new Product with the button below</string>
 
     <!-- Inserting Product -->
     <string name="toast_new_insertion_failed">Failed to add new Product</string>

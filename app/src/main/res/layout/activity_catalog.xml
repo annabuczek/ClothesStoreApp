@@ -15,6 +15,27 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+    <RelativeLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/empty_view_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="There are no products in the category"
+            style="@style/EmptyViewTitleText"/>
+
+        <TextView
+            android:id="@+id/empty_view_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/empty_view_title"
+            style="@style/EmptyViewBodyText"
+            tools:text="Change category or add new product with button below"/>
+
+    </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="@dimen/fab_width"
