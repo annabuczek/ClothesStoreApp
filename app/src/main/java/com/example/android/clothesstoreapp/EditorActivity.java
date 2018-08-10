@@ -104,9 +104,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mCurrentUri = i.getData();
 
         if (mCurrentUri == null) {
-            setTitle(R.string.editor_activity_add);
+            setTitle(R.string.editor_activity_add_title);
         } else {
-            setTitle(R.string.editor_activity_edit);
+            setTitle(R.string.editor_activity_edit_title);
             getLoaderManager().initLoader(EDITOR_LOADER_ID, null, this);
         }
 

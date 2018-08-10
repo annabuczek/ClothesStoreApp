@@ -5,6 +5,11 @@
     tools:context=".CatalogActivity">
 
     <item
+        android:id="@+id/menu_catalog_filter"
+        android:title="@string/menu_category_filter"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_filter_24dp"/>
+    <item
         android:id="@+id/menu_catalog_insert"
         android:title="@string/menu_category_insert"
         app:showAsAction="never"/>

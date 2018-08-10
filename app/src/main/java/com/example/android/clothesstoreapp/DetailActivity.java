@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,10 +31,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
      */
     private static final int DETAIL_LOADER_ID = 1;
 
-    /** Maximum quantity number of products that can be stored in a database */
+    /**
+     * Maximum quantity number of products that can be stored in a database
+     */
     private static final int MAX_PRODUCT_QUANTITY = 999;
 
-    /** Minimum quantity number of products that can be stored in a database */
+    /**
+     * Minimum quantity number of products that can be stored in a database
+     */
     private static final int MIN_PRODUCT_QUANTITY = 0;
 
     /**

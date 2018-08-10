@@ -1,9 +1,18 @@
 <resources>
     <string name="app_name">Clothes Store App</string>
-    <string name="catalog_activity_name">Products Catalog</string>
-    <string name="detail_activity_name">Product Details</string>
-    <string name="editor_activity_add">Add Product</string>
-    <string name="editor_activity_edit">Edit Product</string>
+
+    <!-- Activities titles -->
+    <string name="catalog_activity_title">Products Catalog</string>
+    <string name="detail_activity_title">Product Details</string>
+    <string name="editor_activity_add_title">Add Product</string>
+    <string name="editor_activity_edit_title">Edit Product</string>
+    <string name="catalog_activity_title_all">All Products Catalog</string>
+    <string name="catalog_activity_title_tshirt">T-shirts Catalog</string>
+    <string name="catalog_activity_title_shirt">Shirts Catalog</string>
+    <string name="catalog_activity_title_trousers">Trousers Catalog</string>
+    <string name="catalog_activity_title_skirt">Skirts Catalog</string>
+    <string name="catalog_activity_title_dress">Dresses Catalog</string>
+    <string name="catalog_activity_title_other">Other Products Catalog</string>
 
     <!-- Product Overview Label [CHAR LIMIT=20] -->
     <string name="product_overview_label">Overview</string>
@@ -42,6 +51,7 @@
     <string name="product_category_label">Category</string>
 
     <!-- Category Array Strings -->
+    <string name="category_all">All</string>
     <string name="category_other">Other</string>
     <string name="category_tshirt">T-shirt</string>
     <string name="category_shirt">Shirt</string>
@@ -60,6 +70,9 @@
     <!-- Menu Category Activity -->
     <string name="menu_category_insert">Insert example Product</string>
     <string name="menu_category_delete_all">Delete all the products</string>
+    <string name="menu_category_filter">Filter</string>
+
+    <!-- Detail Activity Strings -->
     <string name="list_item_quantity_text">items in stock</string>
     <string name="list_item_category_text">category:</string>
     <string name="list_item_price_text">pln</string>
@@ -102,6 +115,12 @@
     <string name="dialog_unsaved_message">Discard changes and leave?</string>
     <string name="dialog_unsaved_positive_button">Discard</string>
     <string name="dialog_unsaved_negative_button">Keep editing</string>
+
+    <!-- Filter Dialog within Catalog Activity -->
+    <string name="dialog_filter_title">Show Category</string>
+    <string name="dialog_filter_positive_button">Show</string>
+    <string name="dialog_filter_nagetive_button">Cancel</string>
+    <string name="shared_preference_category_key">SHARED_PREFERENCE_CATEGORY</string>
 
 
 </resources>

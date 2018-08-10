@@ -8,4 +8,13 @@
         <item>@string/category_skirt</item>
         <item>@string/category_dress</item>
     </string-array>
+    <string-array name="category_filter_array">
+        <item>@string/category_other</item>
+        <item>@string/category_tshirt</item>
+        <item>@string/category_shirt</item>
+        <item>@string/category_trousers</item>
+        <item>@string/category_skirt</item>
+        <item>@string/category_dress</item>
+        <item>@string/category_all</item>
+    </string-array>
 </resources>

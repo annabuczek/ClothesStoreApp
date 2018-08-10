@@ -90,7 +90,8 @@ public class ClothesContract {
         public static final String COLUMN_CATEGORY = "category";
 
         /**
-         * Constants representing possible integer values for each Product category
+         * Constants representing possible integer values for each Product
+         * Also integer values to store in Shared Preferences
          */
         public static final int CATEGORY_OTHER = 0;
         public static final int CATEGORY_TSHIRT = 1;
@@ -98,6 +99,10 @@ public class ClothesContract {
         public static final int CATEGORY_TROUSERS = 3;
         public static final int CATEGORY_SKIRT = 4;
         public static final int CATEGORY_DRESS = 5;
+        /**
+         * Constant representing all products to store in Shared Preferences
+         */
+        public static final int CATEGORY_ALL = 6;
 
         /**
          * Helper method for checking is category is valid
